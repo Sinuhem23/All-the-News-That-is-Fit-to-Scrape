@@ -22,7 +22,7 @@ app.use(express.static("public"));
 // Connect Handlebars to our Express app
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 // Every request goes through our route middleware
-// app.use(routes);
+app.use(routes);
 
 // If deployed, use the deploted database. Otherwise use the local mongoHealines database
 var MONGODB_URI =
