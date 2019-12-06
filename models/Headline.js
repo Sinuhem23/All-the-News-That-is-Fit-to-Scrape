@@ -1,17 +1,19 @@
+// Headline model
+// ==============
+
+// Require mongoose
 var mongoose = require("mongoose");
 
-// Schema class using mongoose's schema method
+// Create a schema class using mongoose's schema method
 var Schema = mongoose.Schema;
 
-// Create the headlinesSchema with our schema class
+// Create the headlineSchema with our schema class
 var headlineSchema = new Schema({
-  // healin, a string, must be entered
+  // headline, a string, must be entered
   headline: {
     type: String,
     required: true,
-    unique: {
-      index: { unique: true }
-    }
+    unique: { index: { unique: true } }
   },
   // summary, a string, must be entered
   summary: {
@@ -34,7 +36,8 @@ var headlineSchema = new Schema({
   }
 });
 
-// Headline model using the headlineSchema
+// Create the Headline model using the headlineSchema
 var Headline = mongoose.model("Headline", headlineSchema);
 
+// Export the Headline model
 module.exports = Headline;

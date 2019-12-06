@@ -4,7 +4,7 @@ var noteRoutes = require("./notes");
 var headlineRoutes = require("./headlines");
 var clearRoutes = require("./clear");
 
-router.use("./fetch", fetchRoutes);
+router.use("/fetch", fetchRoutes);
 router.use("/notes", noteRoutes);
 router.use("/headlines", headlineRoutes);
 router.use("/clear", clearRoutes);

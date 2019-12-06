@@ -1,15 +1,25 @@
+// scrape script
+// =============
+
+// Require axios and cheerio, making our scrapes possible
 var axios = require("axios");
 var cheerio = require("cheerio");
 
-// Scrapes the NYTimes
+// This function will scrape the NYTimes website
 var scrape = function() {
-  return axios.get("https://www.nytimes.com").then(function(res) {
+  // Scrape the NYTimes website
+  return axios.get("http://www.nytimes.com").then(function(res) {
     var $ = cheerio.load(res.data);
     console.log("scraping");
-    // Empty array to save article info
+    // Make an empty array to save our article info
     var articles = [];
-    // Find and loop through each element that has the ".css-1l4spti" class
+
+    // Now, find and loop through each element that has the ".assetWrapper" class
+    // (i.e, the section holding the articles)
     $(".assetWrapper").each(function(i, element) {
+      // In each article section, we grab the headline, URL, and summary
+
+      // Grab the headline of the article
       var head = $(this)
         .find("h2")
         .text()
@@ -20,14 +30,18 @@ var scrape = function() {
         .find("a")
         .attr("href");
 
+      // Grab the summary of the article
       var sum = $(this)
         .find("p")
         .text()
         .trim();
 
+      // So long as our headline and sum and url aren't empty or undefined, do the following
       if (head && sum && url) {
-        var headNeat = head.replace(/(\r\n|\n|\r|\t|\s+)/gm, "").trim();
-        var sumNeat = sum.replace(/(\r\n|\n|\r|\t|\s+)/gm, "").trim();
+        // This section uses regular expressions and the trim function to tidy our headlines and summaries
+        // We're removing extra lines, extra spacing, extra tabs, etc.. to increase to typographical cleanliness.
+        var headNeat = head.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
+        var sumNeat = sum.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
 
         // Initialize an object we will push to the articles array
         var dataToAdd = {
@@ -44,4 +58,5 @@ var scrape = function() {
   });
 };
 
+// Export the function, so other files in our backend can use it
 module.exports = scrape;
